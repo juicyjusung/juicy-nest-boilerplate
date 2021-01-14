@@ -2,6 +2,8 @@
 /dist
 /node_modules
 
+mysql-mount
+
 # Logs
 logs
 *.log
@@ -9,7 +11,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-
+ormconfig.json
 # OS
 .DS_Store
 
@@ -32,3 +34,4 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.env

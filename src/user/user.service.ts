@@ -22,7 +22,12 @@ export class UserService {
   }
 
   async findOne(userOptions: { id?: string }) {
-    return await this.userRepository.findOne(userOptions);
+    const user = await this.userRepository.findOne(userOptions);
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    return user;
   }
 
   async getUser(email: string): Promise<User> {
@@ -49,6 +54,7 @@ export class UserService {
   }
 
   async createUser(user: CreateUserDto): Promise<User> {
+    console.log('%c [JL] createUser - hi', 'font-size: 13px; color:  orange;');
     if (await this.userRepository.findOne({ where: [{ email: user.email }] })) {
       throw new HttpException('이미 존재하는 이메일 입니다', HttpStatus.CONFLICT);
     }

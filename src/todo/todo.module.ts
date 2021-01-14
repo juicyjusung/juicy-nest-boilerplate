@@ -9,5 +9,6 @@ import { UserModule } from '../user/user.module';
   imports: [TypeOrmModule.forFeature([Todo]), UserModule],
   controllers: [TodoController],
   providers: [TodoService],
+  exports: [TodoService],
 })
 export class TodoModule {}

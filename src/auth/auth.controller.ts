@@ -23,7 +23,7 @@ export class AuthController {
 
   @Get('logout')
   @ApiBearerAuth()
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('jwt'))
   public async logout(@Req() req: any): Promise<any> {
     req.logout();
     return;
@@ -31,7 +31,7 @@ export class AuthController {
 
   @Get('whoami')
   @ApiBearerAuth()
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('jwt'))
   public async testAuth(@Req() req: any): Promise<User> {
     return req.user;
   }

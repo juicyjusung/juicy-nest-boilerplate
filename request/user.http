@@ -1,0 +1,35 @@
+GET http://localhost:3000/user/list
+
+###
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "name": "juicyjusung",
+  "password": "juicyjusung",
+  "email": "juicyjusung@gmail.com"
+}
+
+### hello
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "name": "juicyjusung7",
+  "password": "juicyjusung7",
+  "email": "juicyjusung7@gmail.com"
+}
+
+### hello123
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "name": 123,
+  "password": "juicyjusung2",
+  "email": "juicyjusung2@gmail.com"
+}
+
+### GET User by email
+GET http://localhost:3000/user/juicyjusung@gmail.com
+Content-Type: application/json

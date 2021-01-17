@@ -35,3 +35,6 @@ ormconfig.json
 !.vscode/launch.json
 !.vscode/extensions.json
 .env
+.env.dev
+.env.test
+.env.prod

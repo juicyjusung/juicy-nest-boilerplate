@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { UserModule } from '../user/user.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -14,10 +15,16 @@ import { UserModule } from '../user/user.module';
       property: 'user',
       session: false,
     }),
-    JwtModule.register({
-      secret: process.env.SECRETKEY,
-      signOptions: {
-        expiresIn: process.env.EXPIRESIN,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => {
+        return {
+          secret: config.get<string>('SECRETKEY'),
+          signOptions: {
+            expiresIn: config.get<number>('EXPIRESIN', 360000),
+          },
+        };
       },
     }),
   ],

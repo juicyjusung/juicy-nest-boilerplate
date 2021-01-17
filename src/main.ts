@@ -1,15 +1,15 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ClassSerializerInterceptor, Logger, ValidationPipe } from '@nestjs/common';
-import 'dotenv/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-
-const port = process.env.PORT;
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['warn', 'verbose', 'log'],
   });
+  const configService = app.get(ConfigService);
+
   app.enableCors();
   app.useGlobalPipes(
     new ValidationPipe({
@@ -19,9 +19,8 @@ async function bootstrap() {
   );
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
-  const APP_NAME = process.env.npm_package_name;
-  const APP_VERSION = process.env.npm_package_version;
-
+  const APP_NAME = configService.get('npm_package_name');
+  const APP_VERSION = configService.get('npm_package_version');
   const options = new DocumentBuilder()
     .setTitle(APP_NAME)
     .setDescription(`The ${APP_NAME} API description`)
@@ -32,7 +31,8 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(port);
-  Logger.log(`Server started running / port: ${port}`);
+  const PORT = configService.get('PORT', 3000);
+  await app.listen(PORT);
+  Logger.log(`Server started running / port: ${PORT}`);
 }
 bootstrap();
